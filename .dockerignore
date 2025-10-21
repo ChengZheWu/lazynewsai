@@ -2,9 +2,6 @@
 .git
 .gitignore
 
-# 忽略 Docker 相關檔案
-.dockerignore
-
 # 忽略虛擬環境
 venv/
 /venv/

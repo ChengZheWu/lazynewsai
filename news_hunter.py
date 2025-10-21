@@ -264,6 +264,10 @@ def main():
 
             if database.add_article(article_data, market):
                 new_articles_count += 1
+
+    if new_articles_count < 5:
+        print(f"[FATAL ERROR] 抓取新聞可能有問題，參考新聞只有{new_articles_count}篇。")
+        sys.exit(1) # 使用非 0 的 exit code 代表錯誤
     
     print("\n--- 任務報告 ---")
     if new_articles_count == 0:
