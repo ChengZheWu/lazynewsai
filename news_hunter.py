@@ -248,7 +248,7 @@ def main():
 
         if not publish_time or not content:
             print(f"\n[FATAL ERROR] 無法抓取文章 '{news['headline']}' 的完整內容。程式終止。")
-            sys.exit(1) # 使用非 0 的 exit code 代表錯誤
+            continue
         
         # 這裡現在是兩個 aware time 在做比較，非常精準
         if publish_time and content and publish_time >= time_window:
