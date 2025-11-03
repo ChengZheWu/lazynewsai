@@ -14,7 +14,7 @@ import argparse
 # --- [全域常數] ---
 HOURS_TO_FETCH = 12
 SCROLLING_MAX_RETRIES = 3 # 滾動失敗時，最多重試幾次
-RETRY_DELAY_SECONDS = 10
+RETRY_DELAY_SECONDS = 60
 
 MARKET_CONFIG = {
     'TW': {
