@@ -15,6 +15,9 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
+# 關閉 Python 的輸出緩衝，讓 print() 能即時出現在 CloudWatch Logs
+ENV PYTHONUNBUFFERED=1
+
 # --- 安裝系統依賴 (Chrome 瀏覽器) [核心修正點] ---
 # 更新套件列表並安裝必要的工具 (ca-certificates, gnupg, wget)
 RUN apt-get update && apt-get install -y \
