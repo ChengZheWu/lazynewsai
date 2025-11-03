@@ -1,6 +1,6 @@
 # --- 第一階段：Builder ---
 # 專門用來安裝 Python 套件
-FROM python:3.11-slim as builder
+FROM python:3.11-slim AS builder
 
 WORKDIR /app
 
