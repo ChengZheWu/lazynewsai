@@ -21,6 +21,7 @@ ENV PYTHONUNBUFFERED=1
 # --- 安裝系統依賴 (Chrome 瀏覽器) [核心修正點] ---
 # 更新套件列表並安裝必要的工具 (ca-certificates, gnupg, wget)
 RUN apt-get update && apt-get install -y \
+    tini \
     ca-certificates \
     gnupg \
     wget \
@@ -42,6 +43,8 @@ COPY --from=builder /app/packages /usr/local/lib/python3.11/site-packages
 
 # --- 複製我們的程式碼 ---
 COPY *.py ./
+
+ENTRYPOINT ["/usr/bin/tini", "--"]
 
 # --- 設定啟動指令 ---
 CMD ["python", "run_all.py", "--market", "TW"]
