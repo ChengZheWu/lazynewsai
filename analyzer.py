@@ -90,7 +90,8 @@ def main():
     
     print("報告已發送給 Gemini AI，分析需要一點時間...")
     try:
-        response = model.generate_content(prompt)
+        request_options = {"timeout": 300}
+        response = model.generate_content(prompt, request_options=request_options)
         ai_summary = response.text
         
         print("\n分析完成，正在將報告存入知識庫...")
