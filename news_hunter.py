@@ -112,12 +112,17 @@ def main():
         try:
             # --- [啟動無頭模式] ---
             chrome_options = Options()
+            chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36")
             # "--headless=new" 是 Selenium 4 之後啟動無頭模式的標準寫法
             chrome_options.add_argument("--headless=new")
             # 以下參數是為了在 Docker/Linux 環境中增加穩定性，避免權限問題
             chrome_options.add_argument("--no-sandbox")
             chrome_options.add_argument("--disable-dev-shm-usage")
             chrome_options.add_argument("--disable-gpu") # 在無頭環境下，通常建議關閉 GPU 加速
+            # 禁止載入圖片
+            chrome_options.add_argument("--blink-settings=imagesEnabled=false")
+            # 關閉擴充功能
+            chrome_options.add_argument("--disable-extensions")
             
             # 將設定好的 options 傳給 Chrome
             driver = webdriver.Chrome(options=chrome_options)
