@@ -12,7 +12,7 @@ import sys # 導入 sys 模組來終止程式
 import argparse
 
 # --- [全域常數] ---
-HOURS_TO_FETCH = 12
+HOURS_TO_FETCH = 24
 SCROLLING_MAX_RETRIES = 3 # 滾動失敗時，最多重試幾次
 RETRY_DELAY_SECONDS = 60
 
