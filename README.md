@@ -1,35 +1,77 @@
-# AI-Powered Automated Financial News Podcast (AI 財經新聞自動生成 Podcast)
+# Lazy News AI - Daily AI-Automated Financial News Newsletter
+
+**Lazy News AI** is a fully automated cloud-native system designed for busy investors. The system automatically scrapes massive amounts of financial news for the Taiwan Stock Market (TW) and US Stock Market (US) on a daily schedule. It utilizes Large Language Models (LLM) to perform deep reading and summarization, and leverages Text-to-Speech (TTS) technology to generate audio files. Finally, it packages the concise text report and audio summary into a newsletter, which is automatically delivered to your inbox.
+Stop spending time scrolling through news feeds—let AI organize daily market trends for you, so you can stay on top of the market just by "listening."
+
+**Lazy News AI** 是一個全自動化的雲原生系統，專為繁忙的投資人設計。系統每日定時自動抓取台股 (TW) 與美股 (US) 的海量財經新聞，利用大型語言模型 (LLM) 進行深度閱讀與重點摘要，並透過文字轉語音 (TTS) 技術生成語音檔。最終，將精華的文字報告與語音內容打包成一份電子報，自動寄送至您的信箱。
+不用再花時間刷新聞，讓 AI 為您整理每日市場動態，用「聽」的也能掌握股市脈動。
+
+## ✨ Features
+
+* **🌍 Dual Market Monitoring**: Supports parameterized settings to automate news processing for both **Taiwan Stocks (TW)** and **US Stocks (US)** simultaneously.
+* **🧠 AI-Powered Analysis**: Integrates **Google Gemini API** as a virtual analyst to read and filter dozens of real-time news articles, generating unique, structured market summary reports.
+* **📧 Automated Newsletter**: Integrates **n8n** automated workflows to package the AI-generated text report and audio file, delivering them punctually to subscribers via email every day.
+* **🗣️ Audio Generation**: Integrates **Azure AI Speech** services to convert text reports into natural-sounding MP3 audio guides, perfect for listening during commutes or spare time.
+* **☁️ Serverless Architecture**: The core computation is deployed on **AWS Fargate**, utilizing a serverless architecture that launches on demand, achieving low cost and high efficiency.
+* **⏰ Precision Scheduling**: Uses **Amazon EventBridge Scheduler** to set Cron schedules, automatically triggering tasks based on specific time zones (Asia/Taipei).
+* **🛡️ Reliability & Monitoring**: Integrates **Amazon CloudWatch** for log monitoring and includes retry mechanisms at the crawler and API layers to ensure stable system operation.
+
+## 🚀 How It Works
+
+1. **News Hunter**: Launches a headless browser via Selenium to crawl the latest financial news from sources like Yahoo Finance and performs precise time filtering.
+2. **AI Analyzer**: Sends the filtered news to the Google Gemini model, requesting a structured financial analysis report (including market overview, sector focus, and key company updates).
+3. **Podcaster**: Converts the generated text report into an audio file (MP3) using Azure TTS.
+4. **Delivery**: Uploads the final Markdown report and MP3 to AWS S3 and triggers the n8n workflow to send the newsletter.
+
+## 🛠️ Tech Stack
+
+| Category | Technology |
+| --- | --- |
+| **Core** | Python |
+| **Web Scraper** | Selenium, BeautifulSoup, requests |
+| **Database** | SQLite (RDBMS) |
+| **Local Dev** | Python venv |
+| **Containerization** | Docker |
+| **Cloud (AWS)** | ECR, ECS Fargate (Serverless), EventBridge, IAM, SNS, CloudWatch, S3, Boto3 |
+| **AI** | Google Gemini API (Analysis), Azure AI Speech (TTS), AI-Assisted Dev |
+| **Automation** | n8n |
+| **Version Control** | Git |
+
+## ⚙️ Quick Start (Local Development)
+
+To run this project locally:
+
+1. **Environment Setup**
+Create a `.env` file and fill in the necessary keys:
+```env
+GOOGLE_API_KEY=your_gemini_key
+AZURE_SPEECH_KEY=your_azure_key
+AZURE_SPEECH_REGION=your_azure_region
+# AWS credentials can be omitted if configured in ~/.aws/credentials
+
+```
 
 
-這是一個全自動化的雲原生系統，旨在每日定時抓取台股 (TW) 與美股 (US) 的最新財經新聞，利用大型語言模型 (LLM) 進行深度分析與摘要，並透過文字轉語音 (TTS) 技術生成 Podcast 音檔，最終將文字報告與語音檔自動派送到指定信箱。
+2. **Install Dependencies**
+```bash
+pip install -r requirements.txt
 
-這不僅是一個 Side Project，更是一個結合了數據工程、MLOps、Serverless 架構與自動化流程的完整實戰紀錄。
+```
 
-## ✨ 核心功能 (Features)
 
-- **🌍 多市場支援**：可參數化設定，同時支援台股 (`TW`) 與美股 (`US`) 的新聞處理流程。
-- **🧠 AI 驅動分析**：使用 **Google Gemini API** 閱讀數十篇新聞，生成高品質、有觀點的市場摘要報告。
-- **🗣️ 自動語音生成**：整合 **Azure AI Speech** 服務，將文字報告轉換為聲線自然流暢的 MP3 語音檔。
-- **☁️ Serverless 架構**：整個運算核心部署在 **AWS Fargate** 上，無需管理任何伺服器，按需使用，成本效益極高。
-- **⏰ 精準自動排程**：透過 **Amazon EventBridge Scheduler** 設定多個 Cron 排程，可在指定時區 (Asia/Taipei) 的特定時間點，觸發對應市場的任務。
-- **⚙️ 高度自動化**：整合 **n8n** 建立視覺化工作流，自動從 S3 下載成品、打包並寄送 Email，實現端到端的自動化。
-- **🛡️ 健壯性與監控**：整合 **Amazon CloudWatch** 進行日誌監控與警報，並在基礎設施層與應用層皆設計了重試機制，確保系統穩定運行。
+3. **Run Tasks**
+```bash
+# Run task for Taiwan Stock Market
+python run_all.py --market TW
 
-## 🛠️ 技術棧 (Tech Stack)
+# Run task for US Stock Market
+python run_all.py --market US
 
-| 類別 | 技術 |
-| :--- | :--- |
-| **核心程式** | Python |
-| **網頁爬蟲** | Selenium, BeautifulSoup, requests |
-| **資料庫** | SQLite (RDBMS) |
-| **Local開發環境** | Python venv |
-| **容器技術** | Docker |
-| **雲端架構 (AWS)** | ECR, ECS Fargatre (severless), EventBridge, IAM, SNS, CloudWatch, S3, Boto3 |
-| **AI** | Google Gemini API (分析), Azure AI Speech (語音), AI輔助開發 |
-| **自動化流程** | n8n |
-| **版本控制** | Git |
+```
 
-## 📈 未來展望 (Future Improvements)
 
-- [ ] **Web 前端介面**: 建立一個簡單的 Web 介面來展示歷史報告與收聽 Podcast。
-- [ ] **更進階的 AI 應用**: 嘗試不同的 LLM 或語音模型，或加入情緒分析、關鍵實體識別等功能。
+
+## 📈 Future Improvements
+
+* [ ] **Web Frontend**: Build a simple web interface to showcase historical newsletter archives and allow online podcast streaming.
+* [ ] **Advanced AI Applications**: Experiment with different LLM models or add features like Sentiment Analysis and Named Entity Recognition (NER) to enrich the newsletter content.
